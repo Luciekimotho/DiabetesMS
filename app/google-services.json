@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1090285057805",
+    "firebase_url": "https://diabetesms-31218.firebaseio.com",
+    "project_id": "diabetesms-31218",
+    "storage_bucket": "diabetesms-31218.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1090285057805:android:6967544a2d78a0c1",
+        "android_client_info": {
+          "package_name": "com.ellekay.lucie.diabetesms"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1090285057805-j7ag4th3te5vhiojkf0u1okl9jk9utio.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ellekay.lucie.diabetesms",
+            "certificate_hash": "8cb8d10a98860a5d2e5f5d7f91190cc127c504f3"
+          }
+        },
+        {
+          "client_id": "1090285057805-4vep13e92rn3dlm5nv527lfto838fhmn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCgksD9B84bELq0gC85dlXT4BWkjURYU0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1090285057805-4vep13e92rn3dlm5nv527lfto838fhmn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

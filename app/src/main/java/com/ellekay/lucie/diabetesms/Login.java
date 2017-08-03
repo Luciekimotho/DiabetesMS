@@ -36,7 +36,7 @@ public class Login extends AppCompatActivity {
             String email = user.getEmail();
             String uid = user.getUid();
 
-            Intent i = new Intent(Login.this, Measure.class);
+            Intent i = new Intent(Login.this, UserDetails.class);
             startActivity(i);
 
         }

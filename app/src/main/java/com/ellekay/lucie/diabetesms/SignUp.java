@@ -155,7 +155,7 @@ public class SignUp extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                         }
 
-                        Intent i = new Intent(SignUp.this, Measure.class);
+                        Intent i = new Intent(SignUp.this, UserDetails.class);
                         startActivity(i);
 
                     }
@@ -175,7 +175,7 @@ public class SignUp extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                         }
 
-                        Intent i = new Intent(SignUp.this, Measure.class);
+                        Intent i = new Intent(SignUp.this, UserDetails.class);
                         startActivity(i);
 
                     }

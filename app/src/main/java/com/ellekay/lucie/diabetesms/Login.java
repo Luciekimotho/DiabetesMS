@@ -1,6 +1,9 @@
 package com.ellekay.lucie.diabetesms;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,7 +27,8 @@ public class Login extends AppCompatActivity {
     EditText et_email, et_pass;
     String email, password;
     Button btnSignin, btnSignUp;
-    private PrefManager prefManager;
+
+    LoginTask myloginTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +72,10 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 email = et_email.getText().toString();
                 password = et_pass.getText().toString();
-                logIn(email, password);
+
+                myloginTask = new LoginTask();
+                myloginTask.execute();
+                //logIn(email, password);
             }
         });
 
@@ -101,4 +108,43 @@ public class Login extends AppCompatActivity {
                     }
                 });
     }
+
+    public class LoginTask extends AsyncTask<Void, Void, Void> {
+        ProgressDialog progressDialog;
+        @Override
+        protected Void doInBackground(Void... params) {
+            logIn(email, password);
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            progressDialog = ProgressDialog.show(Login.this,
+                    "ProgressDialog",
+                    "Wait!");
+
+            progressDialog.setCanceledOnTouchOutside(true);
+            progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+
+                }
+            });
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            progressDialog.dismiss();
+            Intent intent = new Intent(Login.this, UserDetails.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+
+        }
+
+    }
+
+
 }

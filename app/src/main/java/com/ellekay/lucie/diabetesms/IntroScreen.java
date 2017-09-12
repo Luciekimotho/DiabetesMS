@@ -1,18 +1,13 @@
 package com.ellekay.lucie.diabetesms;
 
-import android.Manifest;
 import android.content.Intent;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 
 import agency.tango.materialintroscreen.MaterialIntroActivity;
-import agency.tango.materialintroscreen.MessageButtonBehaviour;
-import agency.tango.materialintroscreen.SlideFragment;
 import agency.tango.materialintroscreen.SlideFragmentBuilder;
 
-public class SplashScreen extends MaterialIntroActivity {
+public class IntroScreen extends MaterialIntroActivity {
 
     private PrefManager prefManager;
 
@@ -53,13 +48,16 @@ public class SplashScreen extends MaterialIntroActivity {
     @Override
     public void onFinish() {
         super.onFinish();
-        Intent i = new Intent(SplashScreen.this, Home.class);
-        startActivity(i);
+
+//        Intent i = new Intent(IntroScreen.this, SignUp.class);
+//        startActivity(i);
+
+        launchHomeScreen();
     }
 
-    private void launchHomeScreen(){
+    public void launchHomeScreen(){
         prefManager.setFirstTimeLaunch(false);
-        startActivity(new Intent(SplashScreen.this, Home.class));
+        startActivity(new Intent(IntroScreen.this, SignUp.class));
         finish();
     }
 }

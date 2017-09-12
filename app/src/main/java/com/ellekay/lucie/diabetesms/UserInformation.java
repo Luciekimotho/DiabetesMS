@@ -13,19 +13,17 @@ public class UserInformation {
     public String height;
     public String weight;
     public String location;
-    public String uid;
 
     public UserInformation(){
 
     }
 
-    public UserInformation(String name, String dateOfBirth, String gender, String height, String weight, String location, String uid) {
+    public UserInformation(String name, String dateOfBirth, String gender, String height, String weight, String location) {
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
         this.height = height;
         this.weight = weight;
         this.location = location;
-        this.uid = uid;
     }
 }

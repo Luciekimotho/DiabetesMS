@@ -46,7 +46,7 @@ public class UserDetails extends AppCompatActivity {
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null){
-            startActivity(new Intent(UserDetails.this, Login.class));
+            startActivity(new Intent(this, Login.class));
         }
         userId = user.getUid();
 
@@ -57,13 +57,11 @@ public class UserDetails extends AppCompatActivity {
         et_location = (EditText) findViewById(R.id.et_location);
         btnProfile = (Button) findViewById(R.id.btnSubmitDetails);
         radioGender = (RadioGroup)findViewById(R.id.radioGroup);
-
         selectedId = radioGender.getCheckedRadioButtonId();
         Log.d(TAG, "Id: " +selectedId);
         genderBtn = (RadioButton) findViewById(selectedId);
 
         final Calendar myCalendar = Calendar.getInstance();
-
         final DatePickerDialog.OnDateSetListener dob = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -77,7 +75,6 @@ public class UserDetails extends AppCompatActivity {
         et_dob.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 new DatePickerDialog(UserDetails.this, dob, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
@@ -88,8 +85,8 @@ public class UserDetails extends AppCompatActivity {
         btnProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 submitDetails();
+                startActivity(new Intent(UserDetails.this,Measure.class));
             }
         });
     }
@@ -127,13 +124,16 @@ public class UserDetails extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         userId = user.getUid();
 
-        UserInformation userInformation = new UserInformation(name,dateOfBirth,gender,height,weight,location, userId);
+        UserInformation userInformation = new UserInformation(name,dateOfBirth,gender,height,weight,location);
 
         myRef = database.getInstance().getReference("users");
-        myRef.setValue(userInformation);
-        //myRef.child("users").setValue(userInformation);
+        myRef.child(userId).setValue(userInformation);
 
         Toast.makeText(this, "Information saved", Toast.LENGTH_SHORT).show();
+    }
+
+    public void userProfile(){
+
     }
 
 }

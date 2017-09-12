@@ -46,5 +46,6 @@
     <string name="fillindetails">Let\'s get to know more about you</string>
     <string name="title_activity_home">Home</string>
     <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_welcome2">Welcome2Activity</string>
 
 </resources>

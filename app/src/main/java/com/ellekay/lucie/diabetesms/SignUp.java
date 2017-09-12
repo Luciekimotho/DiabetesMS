@@ -1,7 +1,10 @@
 package com.ellekay.lucie.diabetesms;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,8 +37,7 @@ public class SignUp extends AppCompatActivity {
     EditText et_email, et_password;
     EditText dateOfBirth;
     Button signinBtn,logIn;
-
-    private PrefManager prefManager;
+    SignupTask mySignupTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,17 +54,9 @@ public class SignUp extends AppCompatActivity {
 
         }
 
-        prefManager = new PrefManager(this);
-        if (!prefManager.isFirstTimeLaunch()){
-            Log.d(TAG,"Not first");
-            launchHomeScreen();
-            finish();
-        }
         Log.d(TAG,"First time");
 
         setContentView(R.layout.activity_sign_up);
-
-
 
         et_email = (EditText) findViewById(R.id.et_email);
         et_password = (EditText) findViewById(R.id.et_password);
@@ -112,26 +106,23 @@ public class SignUp extends AppCompatActivity {
             public void onClick(View v) {
                 email = et_email.getText().toString();
                 password = et_password.getText().toString();
-                createAccount(email, password);
+
+                mySignupTask = new SignupTask();
+                mySignupTask.execute();
+
+
             }
         });
 
         logIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(SignUp.this, Login.class);
-                startActivity(i);
+                startActivity(new Intent(SignUp.this, Login.class));
             }
         });
 
     }
 
-
-    private void launchHomeScreen(){
-        prefManager.setFirstTimeLaunch(false);
-        startActivity(new Intent(SignUp.this, Home.class));
-        finish();
-    }
 
     private void updateLabel(Calendar cal) {
         String myFormat = "MM/dd/yy"; //In which you need put here
@@ -140,8 +131,6 @@ public class SignUp extends AppCompatActivity {
         EditText dateOfBirth = (EditText) findViewById(R.id.et_dob);
         dateOfBirth.setText(sdf.format(cal.getTime()));
     }
-
-
 
     public void createAccount(String email, String password){
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -155,55 +144,46 @@ public class SignUp extends AppCompatActivity {
                                     Toast.LENGTH_SHORT).show();
                         }
 
-                        Intent i = new Intent(SignUp.this, UserDetails.class);
-                        startActivity(i);
-
                     }
                 });
     }
 
-    public void logIn(String email, String password){
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
+public class SignupTask extends AsyncTask<Void, Void, Void> {
+    ProgressDialog progressDialog;
+    @Override
+    protected Void doInBackground(Void... params) {
 
-                        if (!task.isSuccessful()){
-                            Log.w(TAG, "signInWithEmail:failed", task.getException());
-                            Toast.makeText(SignUp.this, R.string.signinfail,
-                                    Toast.LENGTH_SHORT).show();
-                        }
-
-                        Intent i = new Intent(SignUp.this, UserDetails.class);
-                        startActivity(i);
-
-                    }
-                });
+        createAccount(email, password);
+        return null;
     }
 
-    public void getCurrentUser(){
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null){
-            String name = user.getDisplayName();
-            String email = user.getEmail();
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
 
-            String uid = user.getUid();
-        }
+        progressDialog = ProgressDialog.show(SignUp.this,
+                "ProgressDialog",
+                "Wait!");
+
+        progressDialog.setCanceledOnTouchOutside(true);
+        progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+
+            }
+        });
     }
 
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        mAuth.addAuthStateListener(mAuthListener);
-//    }
-//
-//    @Override
-//    protected void onStop() {
-//        super.onStop();
-//        mAuth.removeAuthStateListener(mAuthListener);
-//    }
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        progressDialog.dismiss();
 
+        Intent intent = new Intent(SignUp.this, UserDetails.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+}
 
 
 
